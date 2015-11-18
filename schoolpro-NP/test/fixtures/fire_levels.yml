@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  park_name: MyString
+  date: 2015-11-18
+  level: MyString
+
+two:
+  park_name: MyString
+  date: 2015-11-18
+  level: MyString

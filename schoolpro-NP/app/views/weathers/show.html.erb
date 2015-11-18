@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Park name:</strong>
+  <%= @weather.park_name %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @weather.date %>
+</p>
+
+<p>
+  <strong>Temp:</strong>
+  <%= @weather.temp %>
+</p>
+
+<p>
+  <strong>Precip:</strong>
+  <%= @weather.precip %>
+</p>
+
+<p>
+  <strong>Wind:</strong>
+  <%= @weather.wind %>
+</p>
+
+<p>
+  <strong>Humidity:</strong>
+  <%= @weather.humidity %>
+</p>
+
+<%= link_to 'Edit', edit_weather_path(@weather) %> |
+<%= link_to 'Back', weathers_path %>

@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Park name:</strong>
+  <%= @fire_level.park_name %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @fire_level.date %>
+</p>
+
+<p>
+  <strong>Level:</strong>
+  <%= @fire_level.level %>
+</p>
+
+<%= link_to 'Edit', edit_fire_level_path(@fire_level) %> |
+<%= link_to 'Back', fire_levels_path %>

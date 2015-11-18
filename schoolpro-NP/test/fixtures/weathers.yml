@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  park_name: MyString
+  date: 2015-11-18
+  temp: 1.5
+  precip: 1.5
+  wind: 1.5
+  humidity: 1.5
+
+two:
+  park_name: MyString
+  date: 2015-11-18
+  temp: 1.5
+  precip: 1.5
+  wind: 1.5
+  humidity: 1.5

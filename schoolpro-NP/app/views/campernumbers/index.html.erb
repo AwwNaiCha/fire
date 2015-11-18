@@ -1,0 +1,49 @@
+<h1>Listing campernumbers</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Park name</th>
+      <th>Jan</th>
+      <th>Feb</th>
+      <th>Mar</th>
+      <th>Apr</th>
+      <th>May</th>
+      <th>Jun</th>
+      <th>Jul</th>
+      <th>Aug</th>
+      <th>Sep</th>
+      <th>Oct</th>
+      <th>Nov</th>
+      <th>Dec</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @campernumbers.each do |campernumber| %>
+      <tr>
+        <td><%= campernumber.park_name %></td>
+        <td><%= campernumber.jan %></td>
+        <td><%= campernumber.feb %></td>
+        <td><%= campernumber.mar %></td>
+        <td><%= campernumber.apr %></td>
+        <td><%= campernumber.may %></td>
+        <td><%= campernumber.jun %></td>
+        <td><%= campernumber.jul %></td>
+        <td><%= campernumber.aug %></td>
+        <td><%= campernumber.sep %></td>
+        <td><%= campernumber.oct %></td>
+        <td><%= campernumber.nov %></td>
+        <td><%= campernumber.dec %></td>
+        <td><%= link_to 'Show', campernumber %></td>
+        <td><%= link_to 'Edit', edit_campernumber_path(campernumber) %></td>
+        <td><%= link_to 'Destroy', campernumber, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Campernumber', new_campernumber_path %>

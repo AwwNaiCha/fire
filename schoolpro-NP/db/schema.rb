@@ -11,11 +11,45 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151118050625) do
+ActiveRecord::Schema.define(version: 20151118230452) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "postgis"
+
+  create_table "campernumbers", force: true do |t|
+    t.string   "park_name"
+    t.integer  "jan"
+    t.integer  "feb"
+    t.integer  "mar"
+    t.integer  "apr"
+    t.integer  "may"
+    t.integer  "jun"
+    t.integer  "jul"
+    t.integer  "aug"
+    t.integer  "sep"
+    t.integer  "oct"
+    t.integer  "nov"
+    t.integer  "dec"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "fire_levels", force: true do |t|
+    t.string   "park_name"
+    t.date     "date"
+    t.string   "level"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "locations", force: true do |t|
+    t.string   "park_name"
+    t.string   "latitude"
+    t.string   "longitude"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "provinces", force: true do |t|
     t.string   "name",                                                     null: false
@@ -44,5 +78,34 @@ ActiveRecord::Schema.define(version: 20151118050625) do
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "visitornumbers", force: true do |t|
+    t.string   "park_name"
+    t.integer  "jan"
+    t.integer  "feb"
+    t.integer  "mar"
+    t.integer  "apr"
+    t.integer  "may"
+    t.integer  "jun"
+    t.integer  "jul"
+    t.integer  "aug"
+    t.integer  "sep"
+    t.integer  "oct"
+    t.integer  "nov"
+    t.integer  "dec"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "weathers", force: true do |t|
+    t.string   "park_name"
+    t.date     "date"
+    t.float    "temp"
+    t.float    "precip"
+    t.float    "wind"
+    t.float    "humidity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

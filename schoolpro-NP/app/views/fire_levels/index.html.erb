@@ -1,0 +1,29 @@
+<h1>Listing fire_levels</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Park name</th>
+      <th>Date</th>
+      <th>Level</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @fire_levels.each do |fire_level| %>
+      <tr>
+        <td><%= fire_level.park_name %></td>
+        <td><%= fire_level.date %></td>
+        <td><%= fire_level.level %></td>
+        <td><%= link_to 'Show', fire_level %></td>
+        <td><%= link_to 'Edit', edit_fire_level_path(fire_level) %></td>
+        <td><%= link_to 'Destroy', fire_level, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Fire level', new_fire_level_path %>

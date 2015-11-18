@@ -1,0 +1,69 @@
+<%= form_for(@campernumber) do |f| %>
+  <% if @campernumber.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@campernumber.errors.count, "error") %> prohibited this campernumber from being saved:</h2>
+
+      <ul>
+      <% @campernumber.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :park_name %><br>
+    <%= f.text_field :park_name %>
+  </div>
+  <div class="field">
+    <%= f.label :jan %><br>
+    <%= f.number_field :jan %>
+  </div>
+  <div class="field">
+    <%= f.label :feb %><br>
+    <%= f.number_field :feb %>
+  </div>
+  <div class="field">
+    <%= f.label :mar %><br>
+    <%= f.number_field :mar %>
+  </div>
+  <div class="field">
+    <%= f.label :apr %><br>
+    <%= f.number_field :apr %>
+  </div>
+  <div class="field">
+    <%= f.label :may %><br>
+    <%= f.number_field :may %>
+  </div>
+  <div class="field">
+    <%= f.label :jun %><br>
+    <%= f.number_field :jun %>
+  </div>
+  <div class="field">
+    <%= f.label :jul %><br>
+    <%= f.number_field :jul %>
+  </div>
+  <div class="field">
+    <%= f.label :aug %><br>
+    <%= f.number_field :aug %>
+  </div>
+  <div class="field">
+    <%= f.label :sep %><br>
+    <%= f.number_field :sep %>
+  </div>
+  <div class="field">
+    <%= f.label :oct %><br>
+    <%= f.number_field :oct %>
+  </div>
+  <div class="field">
+    <%= f.label :nov %><br>
+    <%= f.number_field :nov %>
+  </div>
+  <div class="field">
+    <%= f.label :dec %><br>
+    <%= f.number_field :dec %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

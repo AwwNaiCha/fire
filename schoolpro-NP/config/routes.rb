@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  resources :fire_levels
+
+  resources :weathers
+
+  resources :campernumbers
+
+  resources :visitornumbers
+
+  resources :locations
+
   get 'page/home'
 
   get 'page/contact_us'
