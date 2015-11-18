@@ -5,19 +5,24 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+
+  <h1><%= link_to 'HOME', home_path%></h1>
+  <h1><%= link_to 'CONTACT US', contact_us_path%></h1>
+  <h1><%= link_to 'MAP', parkmap_path%></h1>
+  <p class="navbar-text pull-right">
+    <% if user_signed_in? %>
+        Logged in as <strong><%= current_user.email %></strong>.
+        <%= link_to 'Edit profile', edit_user_registration_path %> |
+        <%= link_to "Logout", destroy_user_session_path, method: :delete %>
+    <% else %>
+        <%= link_to "Sign up", new_user_registration_path %> |
+        <%= link_to "Login", new_user_session_path %>
+    <% end %> </p>
 </head>
 <body>
-<h1><%= link_to 'HOME', home_path%></h1>
-<p class="navbar-text pull-right">
-  <% if user_signed_in? %>
-      Logged in as <strong><%= current_user.email %></strong>.
-      <%= link_to 'Edit profile', edit_user_registration_path %> |
-      <%= link_to "Logout", destroy_user_session_path, method: :delete %>
-  <% else %>
-      <%= link_to "Sign up", new_user_registration_path %> |
-      <%= link_to "Login", new_user_session_path %>
-  <% end %>
+
 <%= yield %>
 
 </body>
+
 </html>
