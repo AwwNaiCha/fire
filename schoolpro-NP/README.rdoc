@@ -1,3 +1,8 @@
 == README
 
 This project is a demonstration how to integrate PostGIS and google maps into Rails.
+
+
+Admin Login
+email: admin@fire.com
+pw: 12345678
