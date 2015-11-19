@@ -603,18 +603,31 @@
 		ol li {
 			padding-left: 0.25em;
 		}
+    nav {
 
+    }
+        nav ul {
+            list-style: disc;
+            margin: 0 0 2em 0;
+            padding-left: 1em;
+        }
+            nav
+            ul li {
+                padding-left: 0.5em;
+                float: left;
+                position: relative;
+            }
 	ul {
 		list-style: disc;
 		margin: 0 0 2em 0;
 		padding-left: 1em;
 	}
 
-		ul li {
-			padding-left: 0.5em;
-		}
+        ul li {
+            padding-left: 0.5em;
+        }
 
-		ul.alt {
+        ul.alt {
 			list-style: none;
 			padding-left: 0;
 		}
@@ -995,6 +1008,9 @@
 					display: inline-block;
 					margin-left: 2.5em;
 					padding-left: 0;
+
+                    float: left;
+                    position: relative;
 				}
 
 					#header nav > ul > li a {
