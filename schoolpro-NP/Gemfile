@@ -52,4 +52,7 @@ gem 'pry-rails', :group => :development
 # use devise for user authentication
 gem 'devise'
 
+# use lazy_high_charts to plot graphs
+gem 'lazy_high_charts'
+
 

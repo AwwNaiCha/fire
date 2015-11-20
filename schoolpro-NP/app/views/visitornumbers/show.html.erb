@@ -67,3 +67,36 @@
 
 <%= link_to 'Edit', edit_visitornumber_path(@visitornumber) %> |
 <%= link_to 'Back', visitornumbers_path %>
+
+
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    new Highcharts.Chart({
+      chart: {
+        renderTo: "id"
+      },
+      title: {
+        text: "Visitor Numbers for the Whole Year"
+      },
+      xAxis: {
+        categories: ["Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sep","Oct","Nov","Dec"],
+        margin: 5
+      },
+      yAxis: {
+        title: {
+          text: "Visitation",
+          margin: 5
+        }
+      },
+      series: [{
+        name: "<%= @visitornumber.park_name %>",
+        yAxis: 0,
+        data: [<%= @visitornumber.jan %>, <%= @visitornumber.feb %>, <%= @visitornumber.mar %>,
+          <%= @visitornumber.apr %>, <%= @visitornumber.may %>, <%= @visitornumber.jun %>,
+          <%= @visitornumber.jul %>, <%= @visitornumber.aug %>, <%= @visitornumber.sep %>,
+          <%= @visitornumber.oct %>, <%= @visitornumber.nov %>, <%= @visitornumber.dec %>]
+      }]
+    });
+  });
+</script>
+<div id="id" style="width:560px; height:300px;"></div>
