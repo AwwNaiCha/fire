@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Park name:</strong>
+  <%= @park.park_name %>
+</p>
+
+<p>
+  <strong>State:</strong>
+  <%= @park.state %>
+</p>
+
+<%= link_to 'Edit', edit_park_path(@park) %> |
+<%= link_to 'Back', parks_path %>
