@@ -28,8 +28,8 @@
       //Load GeoJSON
       map.data.loadGeoJson("<%= provinces_path format: :json -%>");
 
-      map.setZoom(7);
-      var gabon = new google.maps.LatLng(1.000000, 11.45000000);
+      map.setZoom(5);
+      var gabon = new google.maps.LatLng(38.4230, -95.9717);
       map.setCenter(gabon);
 
       //Create an info box for displaying names
