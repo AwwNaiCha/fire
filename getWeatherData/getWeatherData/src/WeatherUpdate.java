@@ -23,6 +23,7 @@ public class WeatherUpdate {
             username, password);
          c.setAutoCommit(false);
          System.out.println("Opened database successfully");
+         System.out.println("Updating weather data...");
          Statement stmt = c.createStatement();
          String urlHead = "http://api.openweathermap.org/data/2.5/forecast/daily?";
          String urlTail = "&cnt=16&mode=json&appid=";
@@ -50,15 +51,15 @@ public class WeatherUpdate {
         			}
         		 double wind = weather.getDouble("speed");
         		 double humidity = weather.getDouble("humidity");
-        		 //Statement stat = c.createStatement();
-        		 countUpdate += stat.executeUpdate("UPDATE weathers "
+                 ResultSet count = stat.executeQuery("SELECT * FROM weathers "
+                    + "WHERE park_name='"+name+"' AND date='"+sqlDate+"'; ");
+                 if (count.next()) 
+                     countUpdate += stat.executeUpdate("UPDATE weathers "
         		 		+ "SET temp="+temp+", precip="+precip+", wind="+wind+", humidity="+humidity
         		 		+ " WHERE park_name='"+name+"' AND date='"+sqlDate+"'; ");
-        		 countInsert += stat.executeUpdate( "INSERT INTO weathers (park_name, date, temp, precip, wind, humidity) "
-        		 		+ " SELECT '"+name+"', '"+sqlDate+"', "+temp+", "+precip+", "+wind+", "+humidity+""
-        		 		+ "WHERE NOT EXISTS (SELECT * FROM weathers WHERE park_name='"+name+"' AND date='"+sqlDate+"');");
-        		 //stat.close();
-        	 }
+                 else
+                     countInsert += stat.executeUpdate( "INSERT INTO weathers (park_name, date, temp, precip, wind, humidity) "
+                        + " VALUES ('"+name+"', '"+sqlDate+"', "+temp+", "+precip+", "+wind+", "+humidity+")");        	 }
           }
           stat.close();
           rs.close();
