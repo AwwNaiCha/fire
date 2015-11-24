@@ -97,16 +97,14 @@
               color: '#FF0000'
             }
           },
+          labels:{
+            style: {
+              color: '#FF0000'
+            }
+          },
           opposite: true
         }],
-      series: [{
-        name: "Visitors Numbers",
-        yAxis: 0,
-        data: [<%= @visitornumber.jan %>, <%= @visitornumber.feb %>, <%= @visitornumber.mar %>,
-          <%= @visitornumber.apr %>, <%= @visitornumber.may %>, <%= @visitornumber.jun %>,
-          <%= @visitornumber.jul %>, <%= @visitornumber.aug %>, <%= @visitornumber.sep %>,
-          <%= @visitornumber.oct %>, <%= @visitornumber.nov %>, <%= @visitornumber.dec %>]
-      },
+      series: [
         {
           name: "Campers Numbers",
           color: '#FF0000',
@@ -116,7 +114,16 @@
             <%= @campernumber.apr %>, <%= @campernumber.may %>, <%= @campernumber.jun %>,
             <%= @campernumber.jul %>, <%= @campernumber.aug %>, <%= @campernumber.sep %>,
             <%= @campernumber.oct %>, <%= @campernumber.nov %>, <%= @campernumber.dec %>],
-        }]
+        },
+        {
+          name: "Visitors Numbers",
+          yAxis: 0,
+          data: [<%= @visitornumber.jan %>, <%= @visitornumber.feb %>, <%= @visitornumber.mar %>,
+            <%= @visitornumber.apr %>, <%= @visitornumber.may %>, <%= @visitornumber.jun %>,
+            <%= @visitornumber.jul %>, <%= @visitornumber.aug %>, <%= @visitornumber.sep %>,
+            <%= @visitornumber.oct %>, <%= @visitornumber.nov %>, <%= @visitornumber.dec %>]
+        }
+      ]
     });
   });
 </script>
