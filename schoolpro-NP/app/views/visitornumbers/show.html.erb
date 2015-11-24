@@ -76,7 +76,7 @@
         renderTo: "id"
       },
       title: {
-        text: "Visitor Numbers for the Whole Year"
+        text: "<%= @visitornumber.park_name %> National Park Visitor Numbers for the Whole Year"
       },
       xAxis: {
         categories: ["Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sep","Oct","Nov","Dec"],
@@ -85,18 +85,27 @@
       yAxis: {
         title: {
           text: "Visitation",
+          tickInterval: 5000,
           margin: 5
         }
       },
       series: [{
-        name: "<%= @visitornumber.park_name %>",
+        name: "Visitors Numbers",
         yAxis: 0,
         data: [<%= @visitornumber.jan %>, <%= @visitornumber.feb %>, <%= @visitornumber.mar %>,
           <%= @visitornumber.apr %>, <%= @visitornumber.may %>, <%= @visitornumber.jun %>,
           <%= @visitornumber.jul %>, <%= @visitornumber.aug %>, <%= @visitornumber.sep %>,
           <%= @visitornumber.oct %>, <%= @visitornumber.nov %>, <%= @visitornumber.dec %>]
-      }]
+      },
+        {
+          name: "Campers Numbers",
+          yAxis: 0,
+          data: [<%= @campernumber.jan %>, <%= @campernumber.feb %>, <%= @campernumber.mar %>,
+            <%= @campernumber.apr %>, <%= @campernumber.may %>, <%= @campernumber.jun %>,
+            <%= @campernumber.jul %>, <%= @campernumber.aug %>, <%= @campernumber.sep %>,
+            <%= @campernumber.oct %>, <%= @campernumber.nov %>, <%= @campernumber.dec %>]
+        }]
     });
   });
 </script>
-<div id="id" style="width:560px; height:300px;"></div>
+<div id="id" style="width:900px; height:600px;"></div>
