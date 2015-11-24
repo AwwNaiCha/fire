@@ -86,7 +86,15 @@
         title: {
           text: "Visitation",
           tickInterval: 5000,
-          margin: 5
+          margin: 5,
+          style: {
+            color: '#7cb5ec'
+          }
+        },
+        labels:{
+          style: {
+            color: '#7cb5ec'
+          }
         }
       },
         {
@@ -94,20 +102,25 @@
             text: "Campers",
             tickInterval: 500,
             style: {
-              color: '#FF0000'
+              color: '#f15c80'
             }
           },
           labels:{
             style: {
-              color: '#FF0000'
+              color: '#f15c80'
             }
           },
           opposite: true
         }],
+      plotOptions: {
+        series: {
+          lineWidth: 5
+        }
+      },
       series: [
         {
           name: "Campers Numbers",
-          color: '#FF0000',
+          color: '#f15c80',
           type: 'column',
           yAxis: 1,
           data: [<%= @campernumber.jan %>, <%= @campernumber.feb %>, <%= @campernumber.mar %>,
