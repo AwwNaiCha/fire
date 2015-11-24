@@ -82,13 +82,23 @@
         categories: ["Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sep","Oct","Nov","Dec"],
         margin: 5
       },
-      yAxis: {
+      yAxis: [{
         title: {
           text: "Visitation",
           tickInterval: 5000,
           margin: 5
         }
       },
+        {
+          title: {
+            text: "Campers",
+            tickInterval: 500,
+            style: {
+              color: '#FF0000'
+            }
+          },
+          opposite: true
+        }],
       series: [{
         name: "Visitors Numbers",
         yAxis: 0,
@@ -99,11 +109,13 @@
       },
         {
           name: "Campers Numbers",
-          yAxis: 0,
+          color: '#FF0000',
+          type: 'column',
+          yAxis: 1,
           data: [<%= @campernumber.jan %>, <%= @campernumber.feb %>, <%= @campernumber.mar %>,
             <%= @campernumber.apr %>, <%= @campernumber.may %>, <%= @campernumber.jun %>,
             <%= @campernumber.jul %>, <%= @campernumber.aug %>, <%= @campernumber.sep %>,
-            <%= @campernumber.oct %>, <%= @campernumber.nov %>, <%= @campernumber.dec %>]
+            <%= @campernumber.oct %>, <%= @campernumber.nov %>, <%= @campernumber.dec %>],
         }]
     });
   });
