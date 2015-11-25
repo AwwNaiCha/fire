@@ -1,6 +1,7 @@
 class VisitornumbersController < ApplicationController
   before_action :set_visitornumber, only: [:show, :edit, :update, :destroy]
   before_action :set_campernumber, only: [:show, :edit, :update, :destroy]
+  before_action :set_park, only: [:show, :edit, :update, :destroy]
   respond_to :html
 
   def index
@@ -9,7 +10,7 @@ class VisitornumbersController < ApplicationController
   end
 
   def show
-    respond_with(@visitornumber, @campernumber, @weather)
+    respond_with(@visitornumber, @campernumber, @park)
   end
 
   def new
@@ -52,5 +53,13 @@ class VisitornumbersController < ApplicationController
     def campernumber_params
       params.require(:campernumber).permit(:park_name, :jan, :feb, :mar, :apr, :may, :jun, :jul, :aug, :sep, :oct, :nov, :dec)
     end
+
+  def set_park
+    @park = Park.find(params[:id])
+  end
+
+  def park_params
+    params.require(:park).permit(:park_name, :state)
+  end
 
 end
