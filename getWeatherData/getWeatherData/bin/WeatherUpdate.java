@@ -25,9 +25,9 @@ public class WeatherUpdate {
          System.out.println("Opened database successfully");
          System.out.println("Updating weather data...");
          Statement stmt = c.createStatement();
-         String urlHead = "http://api.openweathermap.org/data/2.5/forecast/daily?";
-         String urlTail = "&cnt=16&mode=json&appid=";
-         String key = "2de143494c0b295cca9337e1e96b00e0";
+         String urlHead = "https://api.forecast.io/forecast/";
+         //String urlTail = "&cnt=16&mode=json&appid=";
+         String key = "55e139d26fd8aae4135e3fe2f7231a9e";
          ResultSet rs = stmt.executeQuery( "SELECT park_name, latitude, longitude FROM locations" );
          int countUpdate = 0;
          int countInsert = 0;
@@ -36,20 +36,17 @@ public class WeatherUpdate {
         	 String name = rs.getString("park_name");
         	 double lat = rs.getDouble("latitude");
         	 double lon = rs.getDouble("longitude");
-        	 String url = urlHead + "lat=" + lat + "&lon=" + lon + urlTail + key;
-        	 JSONObject json = JsonReader.readJsonFromUrl(url);
-        	 JSONArray weatherArray = json.getJSONArray("list");
+             String url = urlHead + key + "/" + lat + "," + lon;
+             JSONObject json = JsonReader.readJsonFromUrl(url);
+        	 JSONArray weatherArray = json.getJSONObject("daily").getJSONArray("data");
         	 for (int i = 0; i < weatherArray.length(); i++) {
         		 JSONObject weather = weatherArray.getJSONObject(i);
-        		 Long dateEpoch = weather.getLong("dt");
+        		 Long dateEpoch = weather.getLong("time");
         		 Date date = new Date(dateEpoch*1000);
         		 java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-        		 double temp = (((JSONObject) weather.get("temp")).getDouble("min") + ((JSONObject) weather.get("temp")).getDouble("max")) / 2;
-        		 double precip = 0;
-        		 if(weather.has("rain")) {
-        			    precip = weather.getDouble("rain");
-        			}
-        		 double wind = weather.getDouble("speed");
+        		 double temp = (weather.getDouble("temperatureMin") + weather.getDouble("temperatureMax")) / 2;
+        		 double precip = weather.getDouble("precipIntensity");
+        		 double wind = weather.getDouble("windSpeed");
         		 double humidity = weather.getDouble("humidity");
                  ResultSet count = stat.executeQuery("SELECT * FROM weathers "
                     + "WHERE park_name='"+name+"' AND date='"+sqlDate+"'; ");
