@@ -31,7 +31,7 @@
       <li><%= link_to 'CONTACT US', contact_us_path, :class => "button special big"%></li>
       <li><%= link_to 'MAP', parkmap_path, :class => "button special big"%></li>
       <% if user_signed_in? %>
-          Logged in as <strong><%= current_user.email %></strong>.
+
           <li><%= link_to 'Edit profile', edit_user_registration_path,:class => "button special big" %></li>
           <li><%= link_to "Logout", destroy_user_session_path,:class => "button special big", method: :delete %></li>
       <% else %>
@@ -45,6 +45,10 @@
 
 <section id="one" class="wrapper style2">
   <div class="container 75%">
+
+    <% if user_signed_in? %>
+        <div class="text-align:left">Logged in as <strong><%= current_user.email %></strong>.</div>
+    <% end %>
     <h2> <%= yield %></h2>
   </div>
 
