@@ -151,63 +151,18 @@
   </script>
 </head>
 <body>
-<<<<<<< Updated upstream
-<h1>Park Map</h1>
-
-
-
-<div>
-
-  <input id="btnZoomToIst" type="button" class="button small" value="Zoom To Istanbul" />
-  <input id="btnZoomToStr" type="button" class="button small" value="Zoom To Street Level" />
-</div>
-<div>
-  <table>
-    <tr>
-      <td>
-        <div id="mapDiv"/>
-      </td>
-    </tr>
-  </table>
-</div>
-=======
+	
 <h1>National Parks in USA</h1>
-<h2><%= @locations%></h2>
-  <tbody>
-    <% @locations.each do |location| %>
-      <tr>
-        <td>dfdf <%= location.park_name %></td>
-       </tr>
-    <% end %>
-  </tbody>
-<section id="one" class="wrapper style1">
-  <div class="container 75%">
-    <div class="row 200%">
 
-      <div style="width:120px; float:left;">
-        <ul>
-          <li><input id="btnZoomToUSA" type="button" class="button small" value="Zoom To USA" /></li>
-          <li><input id="btnZoomToMarks" type="button" class="button small" value="Zoom To Park Marks" /></li>
-          <li><input id="btnDisableDrag" type="button" class="button small" value="Disable Drag" /></li>
-          <li><input id="btnMaxZoom" type="button" class="button small" value="Set Max Zoom to 12" /></li>
-          <li><input id="btnMinZoom" type="button" class="button small" value="Set Min Zoom to 5" /></li>
-          <li> <input id="btnChangeUI" type="button" class="button small" value="Change UI" /></li>
-          <li><input id="btnDisableScroll" type="button" class="button small" value="Disable Scroll Zoom" /></li>
-        </ul>
-      </div>
-      <div style="width:1800px; float:right">
-        <table>
-          <tr>
-            <td>
-              <div id="mapDiv"/>
-            </td>
-          </tr>
-        </table>
+<div>
+  <input id="btnZoomToUSA" type="button" class="button small" value="Zoom To USA" />
+  <input id="btnZoomToMarks" type="button" class="button small" value="Zoom To Park Marks" />
+  <input id="btnMaxZoom" type="button" class="button small" value="Go To Park List" />
+</div>
+<div>
+	<div id="mapDiv">
+</div>
 
-      </div>
-    </div>
-  </div>
->>>>>>> Stashed changes
 </section>
 
 
