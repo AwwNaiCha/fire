@@ -2,7 +2,7 @@ class ProvincesController < ApplicationController
 
   def index
       @locations = Location.all
-      
+      @firelevel = FireLevel.all
       #respond_with(@locations)
       
       #@provinces = Province.all

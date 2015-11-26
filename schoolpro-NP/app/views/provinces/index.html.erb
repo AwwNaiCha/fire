@@ -13,8 +13,12 @@
   <script type="text/javascript">
     var map;
 	var parklocs = '<%= @locations.to_json %>'
-	var parklocs = JSON.parse(parklocs.replace(/&quot;/g,'"'));;
+	var parklocs = JSON.parse(parklocs.replace(/&quot;/g,'"'));
+	var firelevel = '<%= @firelevel.to_json %>'
+	var firelevel = JSON.parse(firelevel.replace(/&quot;/g,'"'));
+	
 	//console.log(parklocs);
+	//console.log(firelevel);
 	
 	
     function initMap() {
@@ -53,37 +57,96 @@
       map.data.addListener('mouseout', function(event){
         map.data.revertStyle();
       });
-
+      
+	  /*
       map.data.setStyle(function(feature) {
         return { fillColor: 'green',
           strokeWeight: 1}
       });
+     */
 
+      map.data.setStyle(function(feature) {
+  		  var level = 0;
+  		  var color = 'gray';
+  		  //console.log(feature.getProperty('name'));
+		  for(var i = 0; i < firelevel.length; i++) {
+			  if (firelevel[i].park_name.indexOf(feature.getProperty('name')) != -1 || feature.getProperty('name').indexOf(firelevel[i].park_name) != -1) {
+				  level = firelevel[i].level;
+				  break;
+			  }
+		  }
+		  /*
+		  if(i == 57) {
+			  console.log('i=57');
+		  } 
+		  */
+		  
+  		  if( level == "1") {
+  			  color = 'blue';
+  		  } else if (level == "2") {
+  			  color = 'red';
+  		  } else if (level == "3") {
+  	    	  color = 'yellow';
+  		  } else if (level == "4") {
+  			  color = 'green';
+  		  } else if (level == "5") {
+  			  color = 'black';
+  		  }
+		  
+  		  return /** @type {google.maps.Data.StyleOptions} */({
+  		       fillColor: color,
+  		       strokeColor: color,
+  		       strokeWeight: 2
+  		  });
+	  });
 
+	  
+
+	  
+	  
     }
 
     function zoomToUSA() {
         var istanbul = new google.maps.LatLng(38.4230, -95.9717);
 		map.setZoom(5);
         map.setCenter(istanbul);
+		
+	  
+
     }
 
     function zoomToMarks() {
-
-
+		var d = new Date();
+		console.log(d);
+		console.log(d.getDate());
+        console.log(d.getMonth());
+		console.log(d.getFullYear());
+		
 		for(i = 0; i < parklocs.length; i++) {
 			var myLatLng = {lat: Number(parklocs[i].latitude), lng: Number(parklocs[i].longitude)};
 			var marker = new google.maps.Marker({
 	     	   position: myLatLng,
 	      	   map: map,
-	      	   title: parklocs[i].park_name
+	      	   title: parklocs[i].park_name + '\n' + 'Double click to details'
 	   	 	});
 			
+
 			
 		    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+				var contentString = '<h2> Park Name: '+ parklocs[i].park_name + '</h2>' + '<h1> double click to see details </h1>';  
 		         return function() {
+		 			var infowindow = new google.maps.InfoWindow({
+		 			    content: contentString
+		 			  });			
+					infowindow.open(map, marker);
 	 	    		map.setZoom(10);
 	 	    		map.setCenter(marker.getPosition());
+		         }
+		    })(marker, i));
+			
+		    google.maps.event.addListener(marker, "dblclick", (function(marker, i) {
+		         return function() {
+					 window.location.href="/visitornumbers/" + String(i + 1);
 		         }
 		    })(marker, i));
 		};
@@ -91,8 +154,8 @@
 
     }
 
-    function disableDrag() {
-      map.setOptions({draggable: false});
+    function redirectToParkList() {
+		window.location.href="/visitornumbers";
     }
 
     function setMaxZoom() {
@@ -122,9 +185,9 @@
             zoomToMarks();
           });
 
-      document.getElementById('btnDisableDrag')
+      document.getElementById('btnredirecToParkList')
           .addEventListener('click', function(){
-            disableDrag();
+            redirectToParkList();
           });
 
       document.getElementById('btnMaxZoom')
@@ -157,7 +220,7 @@
 <div>
   <input id="btnZoomToUSA" type="button" class="button small" value="Zoom To USA" />
   <input id="btnZoomToMarks" type="button" class="button small" value="Zoom To Park Marks" />
-  <input id="btnMaxZoom" type="button" class="button small" value="Go To Park List" />
+  <input id="btnredirecToParkList" type="button" class="button small" value="Go To Park List" />
 </div>
 <div>
 	<div id="mapDiv">
