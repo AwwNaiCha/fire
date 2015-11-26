@@ -2,6 +2,11 @@
 <html>
 <head>
   <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDB06c3JC9Puup5N4gk3cK1j9sQ0kO615U&sensor=false"></script>
+
+  <link href="http://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  
   <style type="text/css">
     #mapDiv {
       width: 1400px;
@@ -11,6 +16,98 @@
   </style>
 
   <script type="text/javascript">
+  
+  // time slider event listener
+  var days = 0;
+  
+   $(function() {
+      $( "#slider" ).slider({
+         range:false,
+         min: 0,
+         max: 7,
+		  values: [0],
+         start: function( event, ui ) {
+            $( "#startvalue" )
+               .val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+         },
+         stop: function( event, ui ) {
+            $( "#stopvalue" )
+               .val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+         },
+         change: function( event, ui ) {
+			
+		    days =  ui.values[ 0 ];
+		    console.log(days);
+		   
+	   		var d = new Date();
+	 		d.setTime(d.getTime() + days * 86400000);
+	 		var mapDate = d.getDate();
+	 		var mapMonth = d.getMonth();
+	 		var mapYear = d.getFullYear();
+			
+	   		console.log(d);
+	   		console.log(d.getDate());
+	         console.log(d.getMonth());
+	   		console.log(d.getFullYear());
+			 
+            $( "#changevalue" )
+               .val( "You have chosen day " + ui.values[ 0 ] + "              Date: " + mapMonth + "/" + mapDate + "/" + mapYear);
+			   
+
+		       map.data.setStyle(function(feature) {		  
+	
+		  
+		   		  var level = 0;
+		   		  var color = 'gray';
+		   		  //console.log(feature.getProperty('name'));
+		 		  for(var i = 0; i < firelevel.length; i++) {
+		 			  if (firelevel[i].park_name.indexOf(feature.getProperty('name')) != -1 || feature.getProperty('name').indexOf(firelevel[i].park_name) != -1) {
+		 				  var dataTime = new Date(firelevel[i].date);
+		 				  var dataDate = dataTime.getDate();
+		 				  var dataMonth = dataTime.getMonth();
+		 				  var dataYear = dataTime.getFullYear();
+				  
+		 		    	  console.log(dataTime.getDate());
+		 		          console.log(dataTime.getMonth());
+		 		    	  console.log(dataTime.getFullYear());
+				  
+		 				  if (mapDate == dataDate && mapMonth == dataMonth && mapYear == dataYear) {
+		 					  level = firelevel[i].level;
+		 					  break;
+		 				  }				  
+		 			  }
+		 		  }
+		   		  if( level == "1") {
+		   			  color = 'blue';
+		   		  } else if (level == "2") {
+		   			  color = 'red';
+		   		  } else if (level == "3") {
+		   	    	  color = 'yellow';
+		   		  } else if (level == "4") {
+		   			  color = 'green';
+		   		  } else if (level == "5") {
+		   			  color = 'black';
+		   		  }
+		  
+		   		  return /** @type {google.maps.Data.StyleOptions} */({
+		   		       fillColor: color,
+		   		       strokeColor: color,
+		   		       strokeWeight: 2
+		   		  });
+		 	  });
+			  		   			   
+			   
+         },
+         slide: function( event, ui ) {
+            $( "#slidevalue" )
+               .val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+         }
+     });
+   });
+  
+ /////////////////////////////////////////////////////////////// 
+  
+  
     var map;
 	var parklocs = '<%= @locations.to_json %>'
 	var parklocs = JSON.parse(parklocs.replace(/&quot;/g,'"'));
@@ -58,28 +155,40 @@
         map.data.revertStyle();
       });
       
-	  /*
+	  days = 0;
       map.data.setStyle(function(feature) {
-        return { fillColor: 'green',
-          strokeWeight: 1}
-      });
-     */
-
-      map.data.setStyle(function(feature) {
+		  
+  		var d = new Date();
+		d.setTime(d.getTime() + days * 86400000);
+		var mapDate = d.getDate();
+		var mapMonth = d.getMonth();
+		var mapYear = d.getFullYear();
+		
+  		console.log(d);
+  		console.log(d.getDate());
+        console.log(d.getMonth());
+  		console.log(d.getFullYear());
+		  
   		  var level = 0;
   		  var color = 'gray';
   		  //console.log(feature.getProperty('name'));
 		  for(var i = 0; i < firelevel.length; i++) {
 			  if (firelevel[i].park_name.indexOf(feature.getProperty('name')) != -1 || feature.getProperty('name').indexOf(firelevel[i].park_name) != -1) {
-				  level = firelevel[i].level;
-				  break;
+				  var dataTime = new Date(firelevel[i].date);
+				  var dataDate = dataTime.getDate();
+				  var dataMonth = dataTime.getMonth();
+				  var dataYear = dataTime.getFullYear();
+				  
+		    	  console.log(dataTime.getDate());
+		          console.log(dataTime.getMonth());
+		    	  console.log(dataTime.getFullYear());
+				  
+				  if (mapDate == dataDate && mapMonth == dataMonth && mapYear == dataYear) {
+					  level = firelevel[i].level;
+					  break;
+				  }				  
 			  }
 		  }
-		  /*
-		  if(i == 57) {
-			  console.log('i=57');
-		  } 
-		  */
 		  
   		  if( level == "1") {
   			  color = 'blue';
@@ -116,11 +225,6 @@
     }
 
     function zoomToMarks() {
-		var d = new Date();
-		console.log(d);
-		console.log(d.getDate());
-        console.log(d.getMonth());
-		console.log(d.getFullYear());
 		
 		for(i = 0; i < parklocs.length; i++) {
 			var myLatLng = {lat: Number(parklocs[i].latitude), lng: Number(parklocs[i].longitude)};
@@ -133,7 +237,7 @@
 
 			
 		    google.maps.event.addListener(marker, 'click', (function(marker, i) {
-				var contentString = '<h2> Park Name: '+ parklocs[i].park_name + '</h2>' + '<h1> double click to see details </h1>';  
+				var contentString = '<h3>'+ parklocs[i].park_name + '</h3>' + '<h1> double click marker to see details </h1>';  
 		         return function() {
 		 			var infowindow = new google.maps.InfoWindow({
 		 			    content: contentString
@@ -158,8 +262,10 @@
 		window.location.href="/visitornumbers";
     }
 
-    function setMaxZoom() {
-      map.setOptions({maxZoom: 12});
+    function refreshMap() {
+		console.log("refresh");
+		//window.location.reload();
+		window.location.href="/provinces";
     }
 
     function setMinZoom() {
@@ -190,9 +296,9 @@
             redirectToParkList();
           });
 
-      document.getElementById('btnMaxZoom')
+      document.getElementById('btnrefreshMap')
           .addEventListener('click', function() {
-            setMaxZoom();
+            refreshMap();
           });
       document.getElementById('btnMinZoom')
           .addEventListener('click', function() {
@@ -215,19 +321,46 @@
 </head>
 <body>
 	
-<h1>National Parks in USA</h1>
+<h2>National Parks in USA</h2>
 
 <div>
-  <input id="btnZoomToUSA" type="button" class="button small" value="Zoom To USA" />
-  <input id="btnZoomToMarks" type="button" class="button small" value="Zoom To Park Marks" />
-  <input id="btnredirecToParkList" type="button" class="button small" value="Go To Park List" />
+  <input id="btnrefreshMap" type="button" class="button" value="Refresh" />
+  <input id="btnZoomToUSA" type="button" class="button" value="Zoom To USA" />
+  <input id="btnZoomToMarks" type="button" class="button" value="Park Marks" />
+  <input id="btnredirecToParkList" type="button" class="button" value="Park List" />
 </div>
+
+
 <div>
 	<div id="mapDiv">
 </div>
-
-</section>
-
-
+<div>
+    <p>
+	   <h1>Choose the Day for Fire Leve Prediction:</h1>
+       <input type="text" id="changevalue" 
+          style="border:0; color:#b9cd6d; font-weight:bold;">
+    </p>
+</div>
+<div id="slider"></div>
+      <!--p>
+         <label for="startvalue">Start:</label>
+         <input type="text" id="startvalue" 
+            style="border:0; color:#b9cd6d; font-weight:bold;">
+      </p>
+      <p>
+         <label for="stopvalue">Stop:</label>
+         <input type="text" id="stopvalue" 
+            style="border:0; color:#b9cd6d; font-weight:bold;">
+      </p>
+      <p>
+         <label for="changevalue">Change:</label>
+         <input type="text" id="changevalue" 
+            style="border:0; color:#b9cd6d; font-weight:bold;">
+      </p>
+      <p>
+         <label for="slidevalue">Slide:</label>
+         <input type="text" id="slidevalue" 
+            style="border:0; color:#b9cd6d; font-weight:bold;">
+      </p -->
 </body>
 </html>
