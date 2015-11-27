@@ -1,0 +1,69 @@
+<%= form_for(@monthly_prcp) do |f| %>
+  <% if @monthly_prcp.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@monthly_prcp.errors.count, "error") %> prohibited this monthly_prcp from being saved:</h2>
+
+      <ul>
+      <% @monthly_prcp.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :park_name %><br>
+    <%= f.text_field :park_name %>
+  </div>
+  <div class="field">
+    <%= f.label :jan %><br>
+    <%= f.text_field :jan %>
+  </div>
+  <div class="field">
+    <%= f.label :feb %><br>
+    <%= f.text_field :feb %>
+  </div>
+  <div class="field">
+    <%= f.label :mar %><br>
+    <%= f.text_field :mar %>
+  </div>
+  <div class="field">
+    <%= f.label :apr %><br>
+    <%= f.text_field :apr %>
+  </div>
+  <div class="field">
+    <%= f.label :may %><br>
+    <%= f.text_field :may %>
+  </div>
+  <div class="field">
+    <%= f.label :jun %><br>
+    <%= f.text_field :jun %>
+  </div>
+  <div class="field">
+    <%= f.label :jul %><br>
+    <%= f.text_field :jul %>
+  </div>
+  <div class="field">
+    <%= f.label :aug %><br>
+    <%= f.text_field :aug %>
+  </div>
+  <div class="field">
+    <%= f.label :sep %><br>
+    <%= f.text_field :sep %>
+  </div>
+  <div class="field">
+    <%= f.label :oct %><br>
+    <%= f.text_field :oct %>
+  </div>
+  <div class="field">
+    <%= f.label :nov %><br>
+    <%= f.text_field :nov %>
+  </div>
+  <div class="field">
+    <%= f.label :dec %><br>
+    <%= f.text_field :dec %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  resources :monthly_fire_levels
+
+  resources :montly_temps
+
+  resources :monthly_prcps
 
   devise_for :models
   resources :parks

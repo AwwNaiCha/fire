@@ -1,0 +1,49 @@
+<h1>Listing monthly_prcps</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Park name</th>
+      <th>Jan</th>
+      <th>Feb</th>
+      <th>Mar</th>
+      <th>Apr</th>
+      <th>May</th>
+      <th>Jun</th>
+      <th>Jul</th>
+      <th>Aug</th>
+      <th>Sep</th>
+      <th>Oct</th>
+      <th>Nov</th>
+      <th>Dec</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @monthly_prcps.each do |monthly_prcp| %>
+      <tr>
+        <td><%= monthly_prcp.park_name %></td>
+        <td><%= monthly_prcp.jan %></td>
+        <td><%= monthly_prcp.feb %></td>
+        <td><%= monthly_prcp.mar %></td>
+        <td><%= monthly_prcp.apr %></td>
+        <td><%= monthly_prcp.may %></td>
+        <td><%= monthly_prcp.jun %></td>
+        <td><%= monthly_prcp.jul %></td>
+        <td><%= monthly_prcp.aug %></td>
+        <td><%= monthly_prcp.sep %></td>
+        <td><%= monthly_prcp.oct %></td>
+        <td><%= monthly_prcp.nov %></td>
+        <td><%= monthly_prcp.dec %></td>
+        <td><%= link_to 'Show', monthly_prcp %></td>
+        <td><%= link_to 'Edit', edit_monthly_prcp_path(monthly_prcp) %></td>
+        <td><%= link_to 'Destroy', monthly_prcp, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Monthly prcp', new_monthly_prcp_path %>

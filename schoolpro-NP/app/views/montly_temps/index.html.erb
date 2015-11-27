@@ -1,0 +1,49 @@
+<h1>Listing montly_temps</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Park name</th>
+      <th>Jan</th>
+      <th>Feb</th>
+      <th>Mar</th>
+      <th>Apr</th>
+      <th>May</th>
+      <th>Jun</th>
+      <th>Jul</th>
+      <th>Aug</th>
+      <th>Sep</th>
+      <th>Oct</th>
+      <th>Nov</th>
+      <th>Dec</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @montly_temps.each do |montly_temp| %>
+      <tr>
+        <td><%= montly_temp.park_name %></td>
+        <td><%= montly_temp.jan %></td>
+        <td><%= montly_temp.feb %></td>
+        <td><%= montly_temp.mar %></td>
+        <td><%= montly_temp.apr %></td>
+        <td><%= montly_temp.may %></td>
+        <td><%= montly_temp.jun %></td>
+        <td><%= montly_temp.jul %></td>
+        <td><%= montly_temp.aug %></td>
+        <td><%= montly_temp.sep %></td>
+        <td><%= montly_temp.oct %></td>
+        <td><%= montly_temp.nov %></td>
+        <td><%= montly_temp.dec %></td>
+        <td><%= link_to 'Show', montly_temp %></td>
+        <td><%= link_to 'Edit', edit_montly_temp_path(montly_temp) %></td>
+        <td><%= link_to 'Destroy', montly_temp, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Montly temp', new_montly_temp_path %>

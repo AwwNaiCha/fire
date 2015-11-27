@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151125012743) do
+ActiveRecord::Schema.define(version: 20151127011052) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,6 +43,15 @@ ActiveRecord::Schema.define(version: 20151125012743) do
     t.datetime "updated_at"
   end
 
+  create_table "history_weathers", force: true do |t|
+    t.string   "park_name"
+    t.string   "month"
+    t.float    "temp"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "precip"
+  end
+
   create_table "locations", force: true do |t|
     t.string   "park_name"
     t.string   "latitude"
@@ -68,6 +77,60 @@ ActiveRecord::Schema.define(version: 20151125012743) do
 
   add_index "models", ["email"], :name => "index_models_on_email", :unique => true
   add_index "models", ["reset_password_token"], :name => "index_models_on_reset_password_token", :unique => true
+
+  create_table "monthly_fire_levels", force: true do |t|
+    t.string   "park_name"
+    t.integer  "jan"
+    t.integer  "feb"
+    t.integer  "mar"
+    t.integer  "apr"
+    t.integer  "may"
+    t.integer  "jun"
+    t.integer  "jul"
+    t.integer  "aug"
+    t.integer  "sep"
+    t.integer  "oct"
+    t.integer  "nov"
+    t.integer  "dec"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "monthly_prcps", force: true do |t|
+    t.string   "park_name"
+    t.float    "jan"
+    t.float    "feb"
+    t.float    "mar"
+    t.float    "apr"
+    t.float    "may"
+    t.float    "jun"
+    t.float    "jul"
+    t.float    "aug"
+    t.float    "sep"
+    t.float    "oct"
+    t.float    "nov"
+    t.float    "dec"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "montly_temps", force: true do |t|
+    t.string   "park_name"
+    t.float    "jan"
+    t.float    "feb"
+    t.float    "mar"
+    t.float    "apr"
+    t.float    "may"
+    t.float    "jun"
+    t.float    "jul"
+    t.float    "aug"
+    t.float    "sep"
+    t.float    "oct"
+    t.float    "nov"
+    t.float    "dec"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "parks", force: true do |t|
     t.string   "park_name"
@@ -132,6 +195,7 @@ ActiveRecord::Schema.define(version: 20151125012743) do
     t.float    "humidity"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "fireLevel"
   end
 
 end

@@ -1,0 +1,2 @@
+module MonthlyFireLevelsHelper
+end
