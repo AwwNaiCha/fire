@@ -31,6 +31,7 @@ public class WeatherUpdate {
          ResultSet rs = stmt.executeQuery( "SELECT park_name, latitude, longitude FROM locations" );
          int countUpdate = 0;
          int countInsert = 0;
+         String[] month = {"jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"};
          Statement stat = c.createStatement();
          while ( rs.next() ) {
         	 String name = rs.getString("park_name");
@@ -40,23 +41,48 @@ public class WeatherUpdate {
              JSONObject json = JsonReader.readJsonFromUrl(url);
         	 JSONArray weatherArray = json.getJSONObject("daily").getJSONArray("data");
         	 for (int i = 0; i < weatherArray.length(); i++) {
+                 //get weather information
         		 JSONObject weather = weatherArray.getJSONObject(i);
         		 Long dateEpoch = weather.getLong("time");
         		 Date date = new Date(dateEpoch*1000);
         		 java.sql.Date sqlDate = new java.sql.Date(date.getTime());
         		 double temp = (weather.getDouble("temperatureMin") + weather.getDouble("temperatureMax")) / 2;
-        		 double precip = weather.getDouble("precipIntensity");
+        		 double precip = weather.getDouble("precipIntensity") * 24;
         		 double wind = weather.getDouble("windSpeed");
         		 double humidity = weather.getDouble("humidity");
+                 
+                 //calculate fire level
+                 int fire = 1;
+                 if (wind >= 30 && humidity <= 0.2 && temp >= 70 && precip <= 0.00001)  fire = 6;
+                 else if (wind >= 20 && humidity <= 0.3 && temp >= 60 && precip <= 0.00001) fire = 5;
+                 else if (wind >= 10 && humidity <= 0.3 && temp >= 50 && precip <= 0.01)    fire = 4;
+                 else if (wind >= 5 && humidity <= 0.4 && temp >= 40 && precip <= 0.03) fire = 3;
+                 else if (humidity <= 0.5 && temp >= 30 && precip <= 0.04)  fire = 2;
+                 
+                 //add population effect to fire level
+                 ResultSet getMonth = stat.executeQuery("SELECT EXTRACT(MONTH FROM TIMESTAMP '"+sqlDate+"') as m;");
+                 getMonth.next();
+                 String currentMonth = month[getMonth.getInt("m")-1];
+                 ResultSet getVisitor = stat.executeQuery("SELECT * FROM visitornumbers WHERE park_name = '"+name+"';");
+                 int visitor = 0;
+                 int camp = 0;
+                 if (getVisitor.next())
+                     visitor = getVisitor.getInt(currentMonth);
+                 ResultSet getCamp = stat.executeQuery("SELECT * FROM campernumbers WHERE park_name = '"+name+"';");
+                 if (getCamp.next())
+                     camp = getCamp.getInt(currentMonth);
+                 if (Math.log(visitor + 2 * camp) / Math.log(2) / 10 >= 1.5 && fire < 6)   fire++;
+                 
+                 //update or insert data
                  ResultSet count = stat.executeQuery("SELECT * FROM weathers "
                     + "WHERE park_name='"+name+"' AND date='"+sqlDate+"'; ");
                  if (count.next()) 
                      countUpdate += stat.executeUpdate("UPDATE weathers "
-        		 		+ "SET temp="+temp+", precip="+precip+", wind="+wind+", humidity="+humidity
-        		 		+ " WHERE park_name='"+name+"' AND date='"+sqlDate+"'; ");
+        		 		+ "SET temp="+temp+", precip="+precip+", wind="+wind+", humidity="+humidity+", \"fireLevel\"=" + fire
+                        + " WHERE park_name='"+name+"' AND date='"+sqlDate+"'; ");
                  else
-                     countInsert += stat.executeUpdate( "INSERT INTO weathers (park_name, date, temp, precip, wind, humidity) "
-                        + " VALUES ('"+name+"', '"+sqlDate+"', "+temp+", "+precip+", "+wind+", "+humidity+")");        	 }
+                     countInsert += stat.executeUpdate( "INSERT INTO weathers (park_name, date, temp, precip, wind, humidity, \"fireLevel\") "
+                        + " VALUES ('"+name+"', '"+sqlDate+"', "+temp+", "+precip+", "+wind+", "+humidity+", "+fire+")");        	 }
           }
           stat.close();
           rs.close();
