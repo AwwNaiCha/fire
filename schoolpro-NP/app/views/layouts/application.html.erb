@@ -4,6 +4,7 @@
   <title>Fire Prediction</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <%= csrf_meta_tags %>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
   <meta name="description" content="" />
@@ -43,7 +44,7 @@
 </section>
 
 
-<section id="one" class="wrapper style2">
+<section id="one" class="wrapper">
   <div class="container 75%">
 
     <% if user_signed_in? %>
@@ -56,17 +57,16 @@
 
 
 
-
 <!-- Footer -->
 <footer id="footer">
   <div class="container">
     <ul class="icons">
-      <li><a href="#" class="icon fa-facebook"></a></li>
-      <li><a href="#" class="icon fa-twitter"></a></li>
+      <li><a href="#" class="icon fa-facebook-square"></a></li>
+      <li><a href="#" class="icon fa-twitter-square"></a></li>
       <li><a href="#" class="icon fa-instagram"></a></li>
     </ul>
     <ul class="copyright">
-      <li>&copy; Untitled</li>
+      <li>&copy; team 5</li>
       <li>Design: <a href="http://templated.co">TEMPLATED</a></li>
       <li>Images: <a href="http://unsplash.com">Unsplash</a></li>
     </ul>
