@@ -48,7 +48,7 @@
   <div class="container 75%">
 
     <% if user_signed_in? %>
-        <div class="text-align:left">Logged in as <strong><%= current_user.email %></strong>.</div>
+        Logged in as <strong><%= current_user.email %></strong>.
     <% end %>
     <h2> <%= yield %></h2>
   </div>

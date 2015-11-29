@@ -20,8 +20,9 @@
   </thead>
   <tfoot>
   <tr>
-
+    <% if user_signed_in? && current_user.admin %>
     <td><%= link_to 'Edit', edit_visitornumber_path(@visitornumber) %> </td>
+    <% end %>
     <td><%= link_to 'Back', visitornumbers_path %> </td>
   </tr>
   </tfoot>

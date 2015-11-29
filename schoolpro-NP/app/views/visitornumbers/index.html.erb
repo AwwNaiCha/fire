@@ -3,7 +3,8 @@
 <table>
   <thead>
     <tr>
-      <th>Park name</th>
+      <th>Park Name</th>
+      <th>Park Name</th>
       <!--th>Jan</th -->
       <!--th>Feb</th -->
       <!-- th>Mar</th -->
@@ -37,13 +38,16 @@
         <td><%= visitornumber.nov %></td>
         <td><%= visitornumber.dec %></td -->
         <td><%= link_to 'Show', visitornumber %></td>
+        <% if user_signed_in? && current_user.admin %>
         <td><%= link_to 'Edit', edit_visitornumber_path(visitornumber) %></td>
         <td><%= link_to 'Destroy', visitornumber, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
 
 <br>
-
+<% if user_signed_in? && current_user.admin %>
 <%= link_to 'New Visitornumber', new_visitornumber_path %>
+<%end%>
