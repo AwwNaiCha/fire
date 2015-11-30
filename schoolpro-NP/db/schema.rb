@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20151127011052) do
 
   create_table "fire_levels", force: true do |t|
     t.string   "park_name"
-    t.date     "date"
+    t.string   "date"
     t.string   "level"
     t.datetime "created_at"
     t.datetime "updated_at"

@@ -5,6 +5,8 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.1'
 # Use postgresql as the database for Active Record
 gem 'pg'
+#for heroku static asset serving and logging on heroku
+gem 'rails_12factor', group: :production
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -55,4 +57,4 @@ gem 'devise'
 # use lazy_high_charts to plot graphs
 gem 'lazy_high_charts'
 
-
+ruby "2.2.1"
