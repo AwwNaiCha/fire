@@ -3,6 +3,7 @@ class ProvincesController < ApplicationController
   def index
       @locations = Location.all
       @firelevel = FireLevel.all
+      @weather = Weather.all
       #respond_with(@locations)
       
       #@provinces = Province.all

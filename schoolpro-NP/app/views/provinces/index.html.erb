@@ -200,6 +200,8 @@
 		   		  var level = 0;
 		   		  var color = 'gray';
 		   		  //console.log(feature.getProperty('name'));
+				  
+				  /* for fire_level data
 		 		  for(var i = 0; i < firelevel.length; i++) {
 		 			  if (firelevel[i].park_name.indexOf(feature.getProperty('name')) != -1 || feature.getProperty('name').indexOf(firelevel[i].park_name) != -1) {
 		 				  var dataTime = new Date(firelevel[i].date);
@@ -228,7 +230,47 @@
 		   		  } else if (level == "5") {
 		   			  color = 'black';
 		   		  }
+		         */
+				  
+				  
+				  //code for weather data
 		  
+				  for(var i = 0; i < weather.length; i++) {
+					  if (weather[i].park_name.indexOf(feature.getProperty('name')) != -1 || feature.getProperty('name').indexOf(weather[i].park_name) != -1) {
+						  var dataTime = new Date(weather[i].date);
+						  dataTime.setTime(dataTime.getTime() + 1 * 86400000);
+						  var dataDate = dataTime.getDate();
+						  var dataMonth = dataTime.getMonth();
+						  var dataYear = dataTime.getFullYear();
+				  
+						  console.log(weather[i].date);
+						  console.log(dataTime);
+				    	  console.log(dataTime.getDate());
+				          console.log(dataTime.getMonth());
+				    	  console.log(dataTime.getFullYear());
+				  
+						  if (mapDate == dataDate && mapMonth == dataMonth && mapYear == dataYear) {
+							  level = weather[i].fireLevel;
+							  break;
+						  }				  
+					  }
+				  }
+		  
+		  		  if( level == 1) {
+		  			  color = 'blue';
+		  		  } else if (level == 2) {
+		  			  color = 'red';
+		  		  } else if (level == 3) {
+		  	    	  color = 'yellow';
+		  		  } else if (level == 4) {
+		  			  color = 'green';
+		  		  } else if (level == 5) {
+		  			  color = 'black';
+		  		  } else if (level == 6) {
+		  		  	  color = 'gold';
+		  		  }
+		 
+				  
 		   		  return /** @type {google.maps.Data.StyleOptions} */({
 		   		       fillColor: color,
 		   		       strokeColor: color,
@@ -257,10 +299,11 @@
 	var parklocs = JSON.parse(parklocs.replace(/&quot;/g,'"'));
 	var firelevel = '<%= @firelevel.to_json %>'
 	var firelevel = JSON.parse(firelevel.replace(/&quot;/g,'"'));
-	
+	var weather = '<%= @weather.to_json %>'
+	var weather = JSON.parse(weather.replace(/&quot;/g,'"'));
 	//console.log(parklocs);
 	//console.log(firelevel);
-	
+	//console.log(weather);
 	
     function initMap() {
       google.maps.visualRefresh = true;
@@ -316,6 +359,8 @@
   		  var level = 0;
   		  var color = 'gray';
   		  //console.log(feature.getProperty('name'));
+		  
+		  /* code for fire_level data
 		  for(var i = 0; i < firelevel.length; i++) {
 			  if (firelevel[i].park_name.indexOf(feature.getProperty('name')) != -1 || feature.getProperty('name').indexOf(firelevel[i].park_name) != -1) {
 				  var dataTime = new Date(firelevel[i].date);
@@ -334,6 +379,7 @@
 			  }
 		  }
 		  
+		  /* code for fire_level
   		  if( level == "1") {
   			  color = 'blue';
   		  } else if (level == "2") {
@@ -345,6 +391,48 @@
   		  } else if (level == "5") {
   			  color = 'black';
   		  }
+		  */
+		  
+		  
+		  
+		  //code for weather data
+		  
+		  for(var i = 0; i < weather.length; i++) {
+			  if (weather[i].park_name.indexOf(feature.getProperty('name')) != -1 || feature.getProperty('name').indexOf(weather[i].park_name) != -1) {
+				  var dataTime = new Date(weather[i].date);
+				  dataTime.setTime(dataTime.getTime() + 1 * 86400000);
+				  var dataDate = dataTime.getDate();
+				  var dataMonth = dataTime.getMonth();
+				  var dataYear = dataTime.getFullYear();
+				  
+				  console.log(weather[i].date);
+				  console.log(dataTime);
+		    	  console.log(dataTime.getDate());
+		          console.log(dataTime.getMonth());
+		    	  console.log(dataTime.getFullYear());
+				  
+				  if (mapDate == dataDate && mapMonth == dataMonth && mapYear == dataYear) {
+					  level = weather[i].fireLevel;
+					  break;
+				  }				  
+			  }
+		  }
+		  
+  		  if( level == 1) {
+  			  color = 'blue';
+  		  } else if (level == 2) {
+  			  color = 'red';
+  		  } else if (level == 3) {
+  	    	  color = 'yellow';
+  		  } else if (level == 4) {
+  			  color = 'green';
+  		  } else if (level == 5) {
+  			  color = 'black';
+  		  } else if (level == 6) {
+  		  	  color = 'gold';
+  		  }
+		 
+		  
 		  
   		  return /** @type {google.maps.Data.StyleOptions} */({
   		       fillColor: color,
