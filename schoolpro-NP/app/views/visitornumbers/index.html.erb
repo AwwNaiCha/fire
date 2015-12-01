@@ -1,3 +1,8 @@
+<head>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/heatmap.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
+</head>
 <h1>Listing National Parks</h1>
 
 <table>
@@ -51,3 +56,110 @@
 <% if user_signed_in? && current_user.admin %>
 <%= link_to 'New Visitornumber', new_visitornumber_path %>
 <%end%>
+
+<script type="text/javascript" charset="utf-8">
+
+      $(function() {
+        new Highcharts.Chart({
+
+      chart: {
+        renderTo: "firechart",
+        type: 'heatmap',
+        marginTop: 40,
+        marginBottom: 80,
+        plotBorderWidth: 1
+      },
+
+
+      title: {
+        text: 'Fire Levels Prediction Chart'
+      },
+
+      xAxis: {
+        categories: (function () {
+          // generate an array of random data
+          var data = [],
+              i;
+          var park = '<%= @visitornumbers.to_json %>'
+          park = JSON.parse(park.replace(/&quot;/g,'"'));
+
+          for (i = 0; i < 58; i++) {
+            data.push(
+              park[i].park_name
+            );
+          }
+          return data;
+        }())
+
+      },
+
+      yAxis: {
+        categories: ['<%= Date.today + 5 %>', '<%= Date.today + 4 %>',
+          '<%= Date.today + 3 %>', '<%= Date.today + 2 %>', '<%= Date.today + 1 %>', '<%= Date.today %>'],
+        title: null
+      },
+
+      colorAxis: {
+        min: 0,
+        minColor: '#DDDF0D',
+        maxColor: '#DF5353',
+        max: 6
+      },
+
+      legend: {
+        align: 'right',
+        layout: 'vertical',
+        margin: 0,
+        verticalAlign: 'top',
+        y: 5,
+        symbolHeight: 480
+      },
+
+      tooltip: {
+        formatter: function () {
+          return '<b>' + this.series.xAxis.categories[this.point.x] + '</b> has <br><b>' + '</b>fire level <b>' +
+              this.point.value + '</b> on <br><b>' + this.series.yAxis.categories[this.point.y] + '</b>';
+        }
+      },
+
+      series: [{
+        name: 'Fire Levels Prediction Chart',
+        borderWidth: 1,
+        data: (function () {
+
+          var data = [], i, j, k, l;
+          var firelevel = '<%= @weathers.to_json %>'
+          firelevel = JSON.parse(firelevel.replace(/&quot;/g,'"'));
+          var park = '<%= @visitornumbers.to_json %>'
+          park = JSON.parse(park.replace(/&quot;/g,'"'));
+          var date = new Date();
+
+
+          for (i = 0; i < firelevel.length; i++) {
+
+            for (j = 0; j < park.length; j++) {
+            if (firelevel[i].park_name.indexOf(park[j].park_name) != -1 || park[j].park_name.indexOf(firelevel[i].park_name) != -1){
+              k = j;
+            }}
+              var datedate = new Date(firelevel[i].date);
+              l = Math.round((datedate - date)/86400000);
+
+
+            if (l >= 0 && l <= 5){
+              data.push([
+              k, 5 - l, firelevel[i].fireLevel
+            ]);
+              console.log(data);};
+          }
+          return data;
+        }()),
+          dataLabels: {
+          enabled: true,
+          color: '#000000'
+        }
+      }]
+
+    });
+  });
+    </script>
+<div id="firechart" style="height: 600px; min-width: 600px; max-width: 1200px; margin: 0 auto"></div>
