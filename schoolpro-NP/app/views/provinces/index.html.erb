@@ -469,7 +469,7 @@
 
 			
 		    google.maps.event.addListener(marker, 'click', (function(marker, i) {
-				var contentString = '<h3>'+ parklocs[i].park_name + '</h3>' + '<h1> double click marker to see details </h1>';  
+				var contentString = '<h1>'+ parklocs[i].park_name + '</h1>' + '<h3> double click marker to see details </h3>';  
 		         return function() {
 		 			var infowindow = new google.maps.InfoWindow({
 		 			    content: contentString
@@ -494,10 +494,10 @@
 		window.location.href="/visitornumbers";
     }
 
-    function refreshMap() {
+    function monthlyMap() {
 		console.log("refresh");
 		//window.location.reload();
-		window.location.href="/provinces";
+		window.location.href="/monthly_fire_levels";
     }
 
     function setMinZoom() {
@@ -528,9 +528,9 @@
             redirectToParkList();
           });
 
-      document.getElementById('btnrefreshMap')
+      document.getElementById('btnMonthlyMap')
           .addEventListener('click', function() {
-            refreshMap();
+            monthlyMap();
           });
       document.getElementById('btnMinZoom')
           .addEventListener('click', function() {
@@ -556,7 +556,7 @@
 <h2>National Parks in USA</h2>
 
 <div>
-  <input id="btnrefreshMap" type="button" class="button" value="Refresh" />
+  <input id="btnMonthlyMap" type="button" class="button" value="Monthly Map" />
   <input id="btnZoomToUSA" type="button" class="button" value="Zoom To USA" />
   <input id="btnZoomToMarks" type="button" class="button" value="Park Marks" />
   <input id="btnredirecToParkList" type="button" class="button" value="Park List" />
@@ -568,7 +568,8 @@
     <td><div id="mapDiv"/></td>
   </tr>
 
-</table>
+<table>
+	
 <div>
     <p>
 	   <h1>Choose the Day for Fire Leve Prediction:</h1>

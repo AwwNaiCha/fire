@@ -5,7 +5,10 @@ class MonthlyFireLevelsController < ApplicationController
 
   def index
     @monthly_fire_levels = MonthlyFireLevel.all
-    respond_with(@monthly_fire_levels)
+    @locations = Location.all
+    @firelevel = FireLevel.all
+    @weather = Weather.all
+    
   end
 
   def show

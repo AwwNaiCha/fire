@@ -1,6 +1,647 @@
-<h1>Listing monthly_fire_levels</h1>
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDB06c3JC9Puup5N4gk3cK1j9sQ0kO615U&sensor=false"></script>
+
+  <link href="https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  
+  <style type="text/css">
+    #mapDiv {
+      width: 1400px;
+      height: 800px;
+    }
+  </style>
+
+  <script type="text/javascript">
+    var points = 12;
+
+    (function($) {
+
+      var extensionMethods = {
+
+        pips: function(settings) {
+
+          options = {
+
+            first: "number", // "pip" , false
+            last: "number", // "pip" , false
+            rest: "pip" // "number" , false
+
+          };
+
+          $.extend(options, settings);
+
+          // get rid of all pips that might already exist.
+          this.element.addClass('ui-slider-pips').find('.ui-slider-pip').remove();
+
+          // we need teh amount of pips to create.
+          var pips = this.options.max - this.options.min;
+
+          // for every stop in the slider, we create a pip.
+          for (i = 0; i <= pips; i++) {
+
+            // hold a span element for the pip
+            var s = $('<span class="ui-slider-pip"><span class="ui-slider-line"></span><span class="ui-slider-number">' + i + '</span></span>');
+
+            // add a class so css can handle the display
+            // we'll hide numbers by default in CSS, and show them if set.
+            // we'll also use CSS to hide the pip altogether.
+            if (0 == i) {
+              s.addClass('ui-slider-pip-first');
+              if ("number" == options.first) {
+                s.addClass('ui-slider-pip-number');
+              }
+              if (false == options.first) {
+                s.addClass('ui-slider-pip-hide');
+              }
+            } else if (pips == i) {
+              s.addClass('ui-slider-pip-last');
+              if ("number" == options.last) {
+                s.addClass('ui-slider-pip-number');
+              }
+              if (false == options.last) {
+                s.addClass('ui-slider-pip-hide');
+              }
+            } else {
+              if ("number" == options.rest) {
+                s.addClass('ui-slider-pip-number');
+              }
+              if (false == options.rest) {
+                s.addClass('ui-slider-pip-hide');
+              }
+            }
+
+
+            // if it's a horizontal slider we'll set the left offset,
+            // and the top if it's vertical.
+            if (this.options.orientation == "horizontal")
+              s.css({
+                left: '' + (100 / pips) * i + '%'
+              });
+            else
+              s.css({
+                top: '' + (100 / pips) * i + '%'
+              });
+
+
+            // append the span to the slider.
+            this.element.append(s);
+
+          }
+
+        }
+
+
+      };
+
+      $.extend(true, $['ui']['slider'].prototype, extensionMethods);
+
+
+    })(jQuery);
+
+    (function($) {
+
+      var extensionMethods = {
+
+        float: function(settings) {
+
+          options = {};
+          $.extend(options, settings);
+
+          // add a class for the CSS
+          this.element.addClass('ui-slider-float');
+
+
+          // if this is a range slider
+          if (this.options.values) {
+
+            var $tip = [
+              $('<span class="ui-slider-tip">' + this.options.values[0] + '</span>'),
+              $('<span class="ui-slider-tip">' + this.options.values[1] + '</span>')
+            ];
+
+
+            // else if its just a normal slider
+          } else {
+
+            // create a tip element
+            var $tip = $('<span class="ui-slider-tip">' + this.options.value + '</span>');
+
+          }
+
+          // now we append it to all the handles
+          this.element.find('.ui-slider-handle').each(function(k, v) {
+            $(v).append($tip[k]);
+          })
+
+          // if this slider also has numbers, we'll make those into tips, too; by cloning and changing class.
+          this.element.find('.ui-slider-number').each(function(k, v) {
+            var $e = $(v).clone().removeClass('ui-slider-number').addClass('ui-slider-tip-number');
+            $e.insertAfter($(v));
+          });
+
+          // when slider changes, update handle tip value.
+          this.element.on('slidechange slide', function(e, ui) {
+            $(ui.handle).find('.ui-slider-tip').text(ui.value);
+          });
+
+        }
+
+
+      };
+
+      $.extend(true, $['ui']['slider'].prototype, extensionMethods);
+
+
+    })(jQuery);
+
+
+
+    // time slider event listener
+  var months = 1;
+  
+   $(function() {
+
+      $( "#slider" ).slider({
+         range:false,
+         min: 1,
+         max: 12,
+		  values: [1],
+         start: function( event, ui ) {
+            $( "#startvalue" )
+               .val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+         },
+         stop: function( event, ui ) {
+            $( "#stopvalue" )
+               .val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+         },
+         change: function( event, ui ) {
+			
+		    months =  ui.values[ 0 ];
+		    console.log(months);
+			if(months == 1){
+				monthName = "jan";
+			} else if(months == 2) {
+				monthName = "feb";
+			} else if(months == 3) {
+				monthName = "mar";
+			} else if(months == 4) {
+				monthName = "apr";
+			} else if(months == 5) {
+				monthName = "may";
+			} else if(months == 6) {
+				monthName = "jun";
+			} else if(months == 7) {
+				monthName = "jul";
+			} else if(months == 8) {
+				monthName = "aug";
+			} else if(months == 9) {
+				monthName = "sep";
+			} else if (months == 10) {
+				monthName = "oct"
+			} else if (months == 11) {
+				monthName = "nov";
+			} else if(months == 12) {
+				monthName = "dec";
+			}
+			 
+            $( "#changevalue" )
+               .val( "You have chosen month " + monthName + " historical fire level data");		       
+			   
+			   
+			   map.data.setStyle(function(feature) {
+	
+		  
+		   		  var level = 0;
+		   		  var color = 'gray';
+		   		  //console.log(feature.getProperty('name'));
+				  
+				  /* for fire_level data
+		 		  for(var i = 0; i < firelevel.length; i++) {
+		 			  if (firelevel[i].park_name.indexOf(feature.getProperty('name')) != -1 || feature.getProperty('name').indexOf(firelevel[i].park_name) != -1) {
+		 				  var dataTime = new Date(firelevel[i].date);
+		 				  var dataDate = dataTime.getDate();
+		 				  var dataMonth = dataTime.getMonth();
+		 				  var dataYear = dataTime.getFullYear();
+				  
+		 		    	  console.log(dataTime.getDate());
+		 		          console.log(dataTime.getMonth());
+		 		    	  console.log(dataTime.getFullYear());
+				  
+		 				  if (mapDate == dataDate && mapMonth == dataMonth && mapYear == dataYear) {
+		 					  level = firelevel[i].level;
+		 					  break;
+		 				  }				  
+		 			  }
+		 		  }
+		   		  if( level == "1") {
+		   			  color = 'blue';
+		   		  } else if (level == "2") {
+		   			  color = 'red';
+		   		  } else if (level == "3") {
+		   	    	  color = 'yellow';
+		   		  } else if (level == "4") {
+		   			  color = 'green';
+		   		  } else if (level == "5") {
+		   			  color = 'black';
+		   		  }
+		         */
+				  
+				  
+				  //code for weather data
+		  
+				  for(var i = 0; i < firemonth.length; i++) {
+					  if (firemonth[i].park_name.indexOf(feature.getProperty('name')) != -1 || feature.getProperty('name').indexOf(firemonth[i].park_name) != -1) {
+						  
+			  			if(months == 1){
+			  				level = firemonth[i].jan;
+			  			} else if(months == 2) {
+			  				level = firemonth[i].feb;
+			  			} else if(months == 3) {
+			  				level = firemonth[i].mar;
+			  			} else if(months == 4) {
+			  				level = firemonth[i].apr;
+			  			} else if(months == 5) {
+			  				level = firemonth[i].may;
+			  			} else if(months == 6) {
+			  				level = firemonth[i].jun;
+			  			} else if(months == 7) {
+			  				level = firemonth[i].jul;
+			  			} else if(months == 8) {
+			  				level = firemonth[i].aug;
+			  			} else if(months == 9) {
+			  				level = firemonth[i].sep;
+			  			} else if (months == 10) {
+			  				level = firemonth[i].oct;
+			  			} else if (months == 11) {
+			  				level = firemonth[i].nov;
+			  			} else if(months == 12) {
+			  				level = firemonth[i].dec;
+			  			}
+						  
+						  
+						  break;		  
+					  }
+				  }
+		  
+		  		  if( level == 1) {
+		  			  color = 'blue';
+		  		  } else if (level == 2) {
+		  			  color = 'red';
+		  		  } else if (level == 3) {
+		  	    	  color = 'yellow';
+		  		  } else if (level == 4) {
+		  			  color = 'green';
+		  		  } else if (level == 5) {
+		  			  color = 'black';
+		  		  } else if (level == 6) {
+		  		  	  color = 'gold';
+		  		  }
+		 
+				  
+		   		  return /** @type {google.maps.Data.StyleOptions} */({
+		   		       fillColor: color,
+		   		       strokeColor: color,
+		   		       strokeWeight: 2
+		   		  });
+		 	  });
+			  		   			   
+			   
+         },
+         slide: function( event, ui ) {
+            $( "#slidevalue" )
+               .val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+         }
+     });
+      $('#slider').slider('pips', {
+        rest: 'number'
+      });
+
+   });
+  
+ /////////////////////////////////////////////////////////////// 
+  
+  
+    var map;
+	var parklocs = '<%= @locations.to_json %>'
+	var parklocs = JSON.parse(parklocs.replace(/&quot;/g,'"'));
+	var firelevel = '<%= @firelevel.to_json %>'
+	var firelevel = JSON.parse(firelevel.replace(/&quot;/g,'"'));
+	var weather = '<%= @weather.to_json %>'
+	var weather = JSON.parse(weather.replace(/&quot;/g,'"'));
+	var firemonth = '<%= @monthly_fire_levels.to_json %>'
+	var firemonth = JSON.parse(firemonth.replace(/&quot;/g,'"'));
+	//console.log(parklocs);
+	//console.log(firelevel);
+	//console.log(weather);
+	console.log(firemonth);
+	
+    function initMap() {
+      google.maps.visualRefresh = true;
+
+      var mapOptions = {
+        zoom: 1,
+        mapTypeControlOptions: {mapTypeIds:
+            [google.maps.MapTypeId.ROADMAP]}
+      };
+
+      var mapElement = document.getElementById('mapDiv');
+      map = new google.maps.Map(mapElement, mapOptions);
+      map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
+
+      //Load GeoJSON
+      //map.data.loadGeoJson("<%= provinces_path format: :json -%>");
+      map.data.loadGeoJson("/parks.json");
+	  
+      map.setZoom(5);
+      var gabon = new google.maps.LatLng(38.4230, -95.9717);
+      map.setCenter(gabon);
+
+      //Create an info box for displaying names
+      var infoBox = document.createElement('div');
+      infoBox.innerHTML = "<div id='info-box'></div>";
+      map.controls[google.maps.ControlPosition.RIGHT_TOP].push(infoBox);
+
+      map.data.addListener('mouseover', function(event) {
+        map.data.revertStyle();
+        $('#info-box').text(event.feature.getProperty('name'));
+        map.data.overrideStyle(event.feature, { fillColor: 'red' });
+
+      });
+
+      map.data.addListener('mouseout', function(event){
+        map.data.revertStyle();
+      });
+      
+	  days = 0;
+      map.data.setStyle(function(feature) {
+		  
+  		var d = new Date();
+		d.setTime(d.getTime() + days * 86400000);
+		var mapDate = d.getDate();
+		var mapMonth = d.getMonth();
+		var mapYear = d.getFullYear();
+		
+  		console.log(d);
+  		console.log(d.getDate());
+        console.log(d.getMonth());
+  		console.log(d.getFullYear());
+		  
+  		  var level = 0;
+  		  var color = 'gray';
+  		  //console.log(feature.getProperty('name'));
+		  
+		  /* code for fire_level data
+		  for(var i = 0; i < firelevel.length; i++) {
+			  if (firelevel[i].park_name.indexOf(feature.getProperty('name')) != -1 || feature.getProperty('name').indexOf(firelevel[i].park_name) != -1) {
+				  var dataTime = new Date(firelevel[i].date);
+				  var dataDate = dataTime.getDate();
+				  var dataMonth = dataTime.getMonth();
+				  var dataYear = dataTime.getFullYear();
+				  
+		    	  console.log(dataTime.getDate());
+		          console.log(dataTime.getMonth());
+		    	  console.log(dataTime.getFullYear());
+				  
+				  if (mapDate == dataDate && mapMonth == dataMonth && mapYear == dataYear) {
+					  level = firelevel[i].level;
+					  break;
+				  }				  
+			  }
+		  }
+		  
+		  /* code for fire_level
+  		  if( level == "1") {
+  			  color = 'blue';
+  		  } else if (level == "2") {
+  			  color = 'red';
+  		  } else if (level == "3") {
+  	    	  color = 'yellow';
+  		  } else if (level == "4") {
+  			  color = 'green';
+  		  } else if (level == "5") {
+  			  color = 'black';
+  		  }
+		  */
+		  
+		  
+		  
+		  //code for weather data
+		  
+		  for(var i = 0; i < firemonth.length; i++) {
+			  if (firemonth[i].park_name.indexOf(feature.getProperty('name')) != -1 || feature.getProperty('name').indexOf(firemonth[i].park_name) != -1) {
+				  
+				  level = firemonth[i].jan;
+				  break;		  
+			  }
+		  }
+		  
+  		  if( level == 1) {
+  			  color = 'blue';
+  		  } else if (level == 2) {
+  			  color = 'red';
+  		  } else if (level == 3) {
+  	    	  color = 'yellow';
+  		  } else if (level == 4) {
+  			  color = 'green';
+  		  } else if (level == 5) {
+  			  color = 'black';
+  		  } else if (level == 6) {
+  		  	  color = 'gold';
+  		  }
+		 
+		  
+		  
+  		  return /** @type {google.maps.Data.StyleOptions} */({
+  		       fillColor: color,
+  		       strokeColor: color,
+  		       strokeWeight: 2
+  		  });
+	  });
+
+	  
+
+	  
+	  
+    }
+
+    function zoomToUSA() {
+        var istanbul = new google.maps.LatLng(38.4230, -95.9717);
+		map.setZoom(5);
+        map.setCenter(istanbul);
+		
+	  
+
+    }
+
+    function zoomToMarks() {
+		
+		for(i = 0; i < parklocs.length; i++) {
+			var myLatLng = {lat: Number(parklocs[i].latitude), lng: Number(parklocs[i].longitude)};
+			var marker = new google.maps.Marker({
+	     	   position: myLatLng,
+	      	   map: map,
+	      	   title: parklocs[i].park_name + '\n' + 'Double click to details'
+	   	 	});
+			
+
+			
+		    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+				var contentString = '<h1>'+ parklocs[i].park_name + '</h1>' + '<h3> double click marker to see details </h3>';  
+		         return function() {
+		 			var infowindow = new google.maps.InfoWindow({
+		 			    content: contentString
+		 			  });			
+					infowindow.open(map, marker);
+	 	    		map.setZoom(10);
+	 	    		map.setCenter(marker.getPosition());
+		         }
+		    })(marker, i));
+			
+		    google.maps.event.addListener(marker, "dblclick", (function(marker, i) {
+		         return function() {
+					 window.location.href="/visitornumbers/" + String(i + 1);
+		         }
+		    })(marker, i));
+		};
+
+
+    }
+
+    function redirectToParkList() {
+		window.location.href="/visitornumbers";
+    }
+
+    function monthlyMap() {
+		console.log("refresh");
+		//window.location.reload();
+		window.location.href="/monthly_fire_levels";
+    }
+
+    function setMinZoom() {
+      map.setOptions({minZoom: 5});
+    }
+
+    function changeUI() {
+      map.setOptions({disableDefaultUI: true});
+    }
+
+    function disableScroll() {
+      map.setOptions({scrollwheel: false});
+    }
+
+    function startButtonEvents() {
+      document.getElementById('btnZoomToUSA')
+          .addEventListener('click', function(){
+            zoomToUSA();
+          });
+
+      document.getElementById('btnZoomToMarks')
+          .addEventListener('click', function() {
+            zoomToMarks();
+          });
+
+      document.getElementById('btnredirecToParkList')
+          .addEventListener('click', function(){
+            redirectToParkList();
+          });
+
+      document.getElementById('btnMonthlyMap')
+          .addEventListener('click', function() {
+            monthlyMap();
+          });
+      document.getElementById('btnMinZoom')
+          .addEventListener('click', function() {
+            setMinZoom();
+          });
+      document.getElementById('btnChangeUI')
+          .addEventListener('click', function() {
+            changeUI();
+          })
+      document.getElementById('btnDisableScroll')
+          .addEventListener('click', function() {
+            disableScroll();
+          });
+    }
+
+    google.maps.event.addDomListener(window, 'load', initMap);
+    document.addEventListener('DOMContentLoaded', startButtonEvents);
+	
+  </script>
+</head>
+<body>
+	
+<h2>Monthly Fire Levels</h2>
+
+<div>
+  <input id="btnMonthlyMap" type="button" class="button" value="Monthly Map" />
+  <input id="btnZoomToUSA" type="button" class="button" value="Zoom To USA" />
+  <input id="btnZoomToMarks" type="button" class="button" value="Park Marks" />
+  <input id="btnredirecToParkList" type="button" class="button" value="Park List" />
+</div>
+
 
 <table>
+  <tr>
+    <td><div id="mapDiv"/></td>
+  </tr>
+
+<table>
+	
+<div>
+    <p>
+	   <h1>Choose the Day for Fire Leve Prediction:</h1>
+       <input type="text" id="changevalue"
+          style="border:0; color:#b9cd6d; font-weight:bold;">
+    </p>
+</div>
+<div id="slider"></div>
+      <!--p>
+         <label for="startvalue">Start:</label>
+         <input type="text" id="startvalue" 
+            style="border:0; color:#b9cd6d; font-weight:bold;">
+      </p>
+      <p>
+         <label for="stopvalue">Stop:</label>
+         <input type="text" id="stopvalue" 
+            style="border:0; color:#b9cd6d; font-weight:bold;">
+      </p>
+      <p>
+         <label for="changevalue">Change:</label>
+         <input type="text" id="changevalue" 
+            style="border:0; color:#b9cd6d; font-weight:bold;">
+      </p>
+      <p>
+         <label for="slidevalue">Slide:</label>
+         <input type="text" id="slidevalue" 
+            style="border:0; color:#b9cd6d; font-weight:bold;">
+      </p -->
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--table>
   <thead>
     <tr>
       <th>Park name</th>
@@ -46,4 +687,4 @@
 
 <br>
 
-<%= link_to 'New Monthly fire level', new_monthly_fire_level_path %>
+<%= link_to 'New Monthly fire level', new_monthly_fire_level_path % -->
