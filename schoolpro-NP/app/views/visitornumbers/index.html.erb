@@ -9,46 +9,32 @@
   <thead>
     <tr>
       <th>Park Name</th>
-      
-      <!--th>Jan</th -->
-      <!--th>Feb</th -->
-      <!-- th>Mar</th -->
-      <!-- th>Apr</th -->
-      <!-- th>May</th -->
-      <!-- th>Jun</th -->
-      <!-- th>Jul</th -->
-      <!-- th>Aug</th -->
-      <!-- th>Sep</th -->
-      <!-- th>Oct</th -->
-      <!-- th>Nov</th -->
-      <!-- th>Dec</th -->
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @visitornumbers.each do |visitornumber| %>
+    <% length = @visitornumbers.length
+    i = 0%>
+    <% while i < length do %>
       <tr>
-        <td><%= visitornumber.park_name %></td>
-        <!-- td><%= visitornumber.jan %></td -->
-        <!-- td><%= visitornumber.feb %></td -->
-        <!-- td><%= visitornumber.mar %></td -->
-        <!-- td><%= visitornumber.apr %></td -->
-        <!-- td><%= visitornumber.may %></td -->
-        <!-- td><%= visitornumber.jun %></td -->
-        <!-- td><%= visitornumber.jul %></td -->
-        <!-- td><%= visitornumber.aug %></td -->
-        <!-- td><%= visitornumber.sep %></td -->
-        <!-- td><%= visitornumber.oct %></td>
-        <td><%= visitornumber.nov %></td>
-        <td><%= visitornumber.dec %></td -->
-        <td><%= link_to 'Show', visitornumber %></td>
+        <td><%= @visitornumbers[i].park_name %></td>
+        <td><%= link_to 'Show', @visitornumbers[i] %></td>
         <% if user_signed_in? && current_user.admin %>
-        <td><%= link_to 'Edit', edit_visitornumber_path(visitornumber) %></td>
-        <td><%= link_to 'Destroy', visitornumber, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <td><%= link_to 'Edit', edit_visitornumber_path(@visitornumbers[i]) %></td>
+            <td><%= link_to 'Destroy', @visitornumbers[i], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+        <td colspan="='5"></td>
+        <td><%= @visitornumbers[i+1].park_name %></td>
+        <td><%= link_to 'Show', @visitornumbers[i+1] %></td>
+        <% if user_signed_in? && current_user.admin %>
+            <td><%= link_to 'Edit', edit_visitornumber_path(@visitornumbers[i]) %></td>
+            <td><%= link_to 'Destroy', @visitornumbers[i], method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
       </tr>
-    <% end %>
+  <% i += 2 %>
+  <% end %>
+
   </tbody>
 </table>
 
