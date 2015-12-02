@@ -77,7 +77,6 @@
 
       xAxis: {
         categories: (function () {
-          // generate an array of random data
           var data = [],
               i;
           var park = '<%= @visitornumbers.to_json %>'
@@ -134,7 +133,6 @@
           park = JSON.parse(park.replace(/&quot;/g,'"'));
           var date = new Date();
 
-
           for (i = 0; i < firelevel.length; i++) {
 
             for (j = 0; j < park.length; j++) {
@@ -149,8 +147,9 @@
               data.push([
               k, 5 - l, firelevel[i].fireLevel
             ]);
-              console.log(data);};
+              }
           }
+          data.push([19,0,1],[19,1,1],[19,2,1],[19,3,1],[19,4,1],[19,5,1],[28,0,1],[28,1,1],[28,2,1],[28,3,1],[28,4,1],[28,5,1]);
           return data;
         }()),
           dataLabels: {

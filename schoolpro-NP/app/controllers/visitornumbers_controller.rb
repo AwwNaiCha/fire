@@ -13,7 +13,8 @@ class VisitornumbersController < ApplicationController
   end
 
   def show
-    respond_with(@visitornumber, @campernumber, @park, @monthly_fire_level)
+    @weathers = Weather.all
+    respond_with(@visitornumber, @campernumber, @park, @monthly_fire_level, @weathers)
   end
 
   def new
@@ -70,7 +71,7 @@ class VisitornumbersController < ApplicationController
   end
 
   def weather_params
-    params.require(:weather).permit(:park_name, :date, :temp, :precip, :wind, :humidity)
+    params.require(:weather).permit(:park_name, :date, :temp, :precip, :wind, :humidity, :fireLevel)
   end
 
   def set_monthly_fire_level
