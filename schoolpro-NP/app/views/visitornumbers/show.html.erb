@@ -3,8 +3,68 @@
 	<script src="https://code.highcharts.com/modules/exporting.js"></script>
   <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 </head>
-<h1>Park Information</h1>
-<table>
+<h1><%= @visitornumber.park_name %> National Park Information</h1>
+  <br/>
+
+
+
+<% @weathers.each do |weather| %>
+    <% if weather.park_name == @visitornumber.park_name %>
+        <% if weather.date == Date.today %>
+            <!--% color = "" %-->
+
+        <h1><span style="font-size:30px;color:black">TODAY(<%= weather.date %>) Fire Threat Level: </span></h1>
+        <h1><span style="font-size:30px;color:#D17658"><%= weather.fireLevel %></span></h1>
+
+        <table>
+          <thead>
+          <tr>
+            <th></th>
+            <th>Following Date</th>
+            <th></th>
+            <th><%= Date.today+1 %></th>
+            <th><%= Date.today+2 %></th>
+            <th><%= Date.today+3 %></th>
+            <th><%= Date.today+4 %></th>
+            <th><%= Date.today+5 %></th>
+            <th><%= Date.today+6 %></th>
+            <th></th>
+            <th colspan="3"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td></td>
+            <td><span style="font-size:25px;color:red">Fire Level</span></td>
+            <% if weather.date == (Date.today +1) %>
+                <td></td>
+            <td><span style="font-size:25px;color:#D17658"><%= weather.fireLevel %></span></td>
+            <% end %>
+            <% if weather.date == (Date.today +2) %>
+                <td><span style="font-size:25px;color:#D17658"><%= weather.fireLevel %></span></td>
+            <% end %>
+            <% if weather.date == (Date.today +3) %>
+                <td><span style="font-size:25px;color:#D17658"><%= weather.fireLevel %></span></td>
+            <% end %>
+            <% if weather.date == (Date.today +4) %>
+                <td><span style="font-size:25px;color:#D17658"><%= weather.fireLevel %></span></td>
+            <% end %>
+            <% if weather.date == (Date.today +5) %>
+                <td><span style="font-size:25px;color:#D17658"><%= weather.fireLevel %></span></td>
+            <% end %>
+            <% if weather.date == (Date.today +6) %>
+                <td><span style="font-size:25px;color:#D17658"><%= weather.fireLevel %></span></td>
+            <% end %>
+            <td></td>
+          </tr>
+          </tbody>
+        </table>
+        <% end %>
+    <% end %>
+    <% end %>
+<br/>
+
+<!--table>
   <thead>
   <tr>
     <th>Park name</th>
@@ -48,7 +108,7 @@
     <td><%= @visitornumber.dec %></td>
   </tr>
   </tbody>
-</table>
+</table-->
 
 <!-- script type="text/javascript" charset="utf-8">
   $(function () {
@@ -1016,7 +1076,8 @@
   </div>
 </div>
 
-</br>
+<br/>
+<br/>
 
 <script type="text/javascript" charset="utf-8">
   $(function() {
@@ -1095,7 +1156,8 @@
 </script>
 <div id="visitation" style="width:900px; height:600px;"></div>
 
-</br>
+<br/>
+<br/>
 <script type="text/javascript" charset="utf-8">
   $(function() {
     new Highcharts.Chart({
@@ -1148,3 +1210,5 @@
   });
 </script>
 <div id="history" style="width:900px; height:600px;"></div>
+
+<%= link_to 'Back', visitornumbers_path %>
