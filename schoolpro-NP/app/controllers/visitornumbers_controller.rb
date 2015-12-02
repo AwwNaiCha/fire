@@ -3,6 +3,7 @@ class VisitornumbersController < ApplicationController
   before_action :set_campernumber, only: [:show, :edit, :update, :destroy]
   before_action :set_park, only: [:show, :edit, :update, :destroy]
   before_action :set_weather, only: [:show, :edit, :update, :destroy]
+  before_action :set_monthly_fire_level, only: [:show, :edit, :update, :destroy]
   respond_to :html
 
   def index
@@ -12,7 +13,7 @@ class VisitornumbersController < ApplicationController
   end
 
   def show
-    respond_with(@visitornumber, @campernumber, @park)
+    respond_with(@visitornumber, @campernumber, @park, @monthly_fire_level)
   end
 
   def new
@@ -72,4 +73,11 @@ class VisitornumbersController < ApplicationController
     params.require(:weather).permit(:park_name, :date, :temp, :precip, :wind, :humidity)
   end
 
+  def set_monthly_fire_level
+    @monthly_fire_level = MonthlyFireLevel.find(params[:id])
+  end
+
+  def monthly_fire_level_params
+    params.require(:monthly_fire_level).permit(:park_name, :jan, :feb, :mar, :apr, :may, :jun, :jul, :aug, :sep, :oct, :nov, :dec)
+  end
 end

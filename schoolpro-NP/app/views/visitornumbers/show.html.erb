@@ -851,6 +851,7 @@
         },
         {
           name: "Visitors Numbers",
+          type: 'spline',
           yAxis: 0,
           data: [<%= @visitornumber.jan %>, <%= @visitornumber.feb %>, <%= @visitornumber.mar %>,
             <%= @visitornumber.apr %>, <%= @visitornumber.may %>, <%= @visitornumber.jun %>,
@@ -862,3 +863,57 @@
   });
 </script>
 <div id="visitation" style="width:900px; height:600px;"></div>
+
+</br>
+<script type="text/javascript" charset="utf-8">
+  $(function() {
+    new Highcharts.Chart({
+      chart: {
+        renderTo: "history",
+        type: 'areaspline'
+      },
+      title: {
+        text: "<%= @visitornumber.park_name %> National Park Historic Fire Level"
+      },
+      xAxis: {
+        categories: ["Jan","Feb","Mar","Apr","May","Jun","July","Aug","Sep","Oct","Nov","Dec"],
+        margin: 5
+      },
+      yAxis: {
+        title: {
+          text: "Fire Level",
+
+          margin: 5
+        },
+        max: 6,
+        min: 0,
+        tickInterval: 1
+      },
+      plotOptions: {
+        series: {
+          lineWidth: 5,
+          fillColor: {
+            linearGradient: [0, 0, 0, 450],
+            stops: [
+              [0, '#DF5353'],
+              [1, '#DDDF0D']
+            ]
+          }
+        }
+      },
+      tooltip: {
+        shared: true
+      },
+      series: [{
+          name: "historic fire level",
+        color: '#DF5353',
+          yAxis: 0,
+          data: [<%= @monthly_fire_level.jan %>, <%= @monthly_fire_level.feb %>, <%= @monthly_fire_level.mar %>,
+            <%= @monthly_fire_level.apr %>, <%= @monthly_fire_level.may %>, <%= @monthly_fire_level.jun %>,
+            <%= @monthly_fire_level.jul %>, <%= @monthly_fire_level.aug %>, <%= @monthly_fire_level.sep %>,
+            <%= @monthly_fire_level.oct %>, <%= @monthly_fire_level.nov %>, <%= @monthly_fire_level.dec %>]
+        }]
+    });
+  });
+</script>
+<div id="history" style="width:900px; height:600px;"></div>
